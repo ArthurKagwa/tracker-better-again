@@ -39,8 +39,8 @@
     <table id="table" class="table-auto border-collapse border border-gray-300 mx-auto mt-6 w-full">
         <thead>
             <tr>
-                <th class="border border-gray-900 px-4 py-2 bg-gray-800">Amount</th>
-                <th class="border border-gray-900 px-4 py-2 bg-gray-800">Type</th>
+                <th class="border border-gray-300 px-4 py-2 bg-gray-200">Amount</th>
+                <th class="border border-gray-300 px-4 py-2 bg-gray-200">Type</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -67,7 +67,7 @@
         function createRow(transaction) {
             const row = document.createElement('tr');
             const amount = document.createElement('td');
-            amount.textContent = transaction.amount.toLocaleString();
+            amount.textContent = transaction.amount;
             amount.classList.add('border', 'border-gray-300', 'px-4', 'py-2');
             row.appendChild(amount);
 

@@ -75,10 +75,11 @@
         const expenses = transactions.filter(transaction => transaction.type === 'expense')
         var runningTotal =0;
         for (const transaction of transactions){
+            const amount = parseFloat(transaction.amount) || 0;
             if(transaction.type === 'income'){
-                runningTotal += transaction.amount;
+                runningTotal += amount;
             }else{
-                runningTotal -= transaction.amount;
+                runningTotal -= amount;
             }
         }
 
