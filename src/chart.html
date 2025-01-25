@@ -4,18 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chart</title>
-    <style href="styles.css"></style>
+    <link href="./output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <body>
-    <div id="area" class="area">
-        <h1 class="text">chart</h1>
-        <p id="error"></p>
-        <h2 id="runningTotal"></h2>
-        <canvas id="countChart"></canvas>
-        <canvas id="totalChart"></canvas>
+    <div class="navigation bg-gray-900 border border-gray-700 rounded-lg shadow-lg mx-auto mt-10 p-4 max-w-3xl">
+        <ul class="flex justify-center space-x-6">
+            <li>
+                <a 
+                    href="form.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    Form
+                </a>
+            </li>
+            <li>
+                <a 
+                    href="list.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    List
+                </a>
+            </li>
+            <li>
+                <a 
+                    href="chart.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    Chart
+                </a>
+            </li>
+        </ul>
     </div>
+    <div id="area" class="area max-w-4xl mx-auto p-6 bg-gray-900 border border-gray-800 shadow-2xl rounded-lg mt-10">
+        <h1 class="text text-center text-3xl font-bold font-serif text-red-600 uppercase tracking-wide mb-4">
+            Chart
+        </h1>
+        <p id="error" class="text-center text-sm text-gray-400 italic mb-2">
+        </p>
+        <h2 id="runningTotal" class="text-center text-lg font-semibold text-gray-300 mb-6">
+        </h2>
+        <div class="grid grid-cols-1 gap-8">
+            <h2 class="text-center text-lg font-semibold text-gray-300 mb-6">
+                Total income and expenses
+            </h2>
+            <canvas id="countChart" class="bg-black rounded-lg p-4 border border-gray-700 shadow-lg max-h-100"></canvas>
+            <h2 class="text-center text-lg font-semibold text-gray-300 mb-6">
+                Number of incomes and expenses
+            </h2>
+            <canvas id="totalChart" class="bg-black rounded-lg p-4 border border-gray-700 shadow-lg max-h-100"></canvas>
+        </div>
+    </div>
+    
     <script>
         const transactions = JSON.parse(localStorage.getItem('transactions')) || []
         const div = document.getElementById('area')
@@ -42,7 +83,7 @@
         }
 
         var runningTotalElement = document.getElementById('runningTotal');
-        runningTotalElement.textContent = `running total: ${runningTotal}`;
+        runningTotalElement.textContent = `running total: ${runningTotal.toLocaleString()}`;
 
         var totalIncome= 0;
         for (const income of incomes){
@@ -59,8 +100,8 @@
                 label: 'Total income and expenses',
                 data: [totalIncome, totalExpense],
                 backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
+                    'rgb(2, 99, 132)',
+                    'rgb(14, 32, 25)',
                 ],
                 hoverOffset: 4
             }]
@@ -73,8 +114,8 @@
                 label: 'No of incomes and expenditures',
                 data: [incomes.length, expenses.length],
                 backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
+                    'rgb(2, 99, 132)',
+                    'rgb(14, 32, 25)',
                 ],
                 hoverOffset: 4
             }]
@@ -102,16 +143,6 @@
 
     </script>
     
-    <div class="navigation">
-        <ul>
-            <li>
-                <a href="form.html">form</a>
-            </li>
-            <li>
-                <a href="list.html">list</a>
-            </li>
-           
-        </ul>
-    </div>
+
 </body>
 </html>
