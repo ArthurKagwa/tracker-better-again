@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chart</title>
+    <link href="./output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body class="bg-black text-gray-200">
+    <div class="navigation bg-gray-900 border border-gray-700 rounded-lg shadow-lg mx-auto mt-10 p-4 max-w-3xl">
+        <ul class="flex justify-center space-x-6">
+            <li>
+                <a 
+                    href="form.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    Form
+                </a>
+            </li>
+            <li>
+                <a 
+                    href="list.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    List
+                </a>
+            </li>
+            <li>
+                <a 
+                    href="chart.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    Chart
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="area" class="area max-w-4xl mx-auto p-6 bg-gray-900 border border-gray-800 shadow-2xl rounded-lg mt-10">
+        <h1 class="text text-center text-3xl font-bold font-serif text-red-600 uppercase tracking-wide mb-4">
+            Chart
+        </h1>
+        <p id="error" class="text-center text-sm text-gray-400 italic mb-2">
+        </p>
+        <h2 id="runningTotal" class="text-center text-lg font-semibold text-gray-300 mb-6">
+        </h2>
+        <div class="grid grid-cols-1 gap-8">
+            <h2 class="text-center text-lg font-semibold text-gray-300 mb-6">
+                Total income and expenses
+            </h2>
+            <canvas id="countChart" class="bg-black rounded-lg p-4 border border-gray-700 shadow-lg max-h-100"></canvas>
+            <h2 class="text-center text-lg font-semibold text-gray-300 mb-6">
+                Number of incomes and expenses
+            </h2>
+            <canvas id="totalChart" class="bg-black rounded-lg p-4 border border-gray-700 shadow-lg max-h-100"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        const transactions = JSON.parse(localStorage.getItem('transactions')) || []
+        const div = document.getElementById('area')
+        if (transactions.length === 0){
+                emptyArrayErrorMess()
+        
+        }
+        function emptyArrayErrorMess(){
+            var paragraph = document.getElementById('error')
+            paragraph.textContent="no transactions";
+
+        }
+
+        //pie chart
+        const incomes = transactions.filter(transaction => transaction.type === 'income')
+        const expenses = transactions.filter(transaction => transaction.type === 'expense')
+        var runningTotal =0;
+        for (const transaction of transactions){
+            if(transaction.type === 'income'){
+                runningTotal += transaction.amount;
+            }else{
+                runningTotal -= transaction.amount;
+            }
+        }
+
+        var runningTotalElement = document.getElementById('runningTotal');
+        runningTotalElement.textContent = `running total: ${runningTotal.toLocaleString()}`;
+
+        var totalIncome= 0;
+        for (const income of incomes){
+            totalIncome += income.amount;
+        }
+        var totalExpense = 0;
+        for (const expense of expenses){
+            totalExpense += expense.amount;
+        }
+
+        const totalData ={
+            labels: ['total income', 'total expense'],
+            datasets: [{
+                label: 'Total income and expenses',
+                data: [totalIncome, totalExpense],
+                backgroundColor: [
+                    'rgb(2, 99, 132)',
+                    'rgb(14, 32, 25)',
+                ],
+                hoverOffset: 4
+            }]
+        
+        };
+
+        const countData = {
+            labels: ['number of incomes', 'no of expenses'],
+            datasets: [{
+                label: 'No of incomes and expenditures',
+                data: [incomes.length, expenses.length],
+                backgroundColor: [
+                    'rgb(2, 99, 132)',
+                    'rgb(14, 32, 25)',
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        const countConfig = {
+            type: 'pie',
+            data: countData,
+        };
+
+        const totalConfig = {
+            type: 'pie',
+            data: totalData,
+        };
+
+        var countChart = new Chart(
+            document.getElementById('countChart'),
+            countConfig
+        );
+
+        var totalChart = new Chart(
+            document.getElementById('totalChart'),
+            totalConfig
+        )
+
+    </script>
+    
+
+</body>
+</html>
