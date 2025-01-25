@@ -5,15 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chart</title>
     <style href="styles.css"></style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
-    <div class="area">
+    <div id="area" class="area">
         <h1 class="text">chart</h1>
+        <p id="error"></p>
+        <h2 id="runningTotal"></h2>
+        <canvas id="countChart"></canvas>
+        <canvas id="totalChart"></canvas>
     </div>
     <script>
         const transactions = JSON.parse(localStorage.getItem('transactions')) || []
         const div = document.getElementById('area')
+        if (transactions.length === 0){
+                emptyArrayErrorMess()
         
+        }
+        function emptyArrayErrorMess(){
+            var paragraph = document.getElementById('error')
+            paragraph.textContent="no transactions";
+
+        }
+
+        //pie chart
+        const incomes = transactions.filter(transaction => transaction.type === 'income')
+        const expenses = transactions.filter(transaction => transaction.type === 'expense')
+        var runningTotal =0;
+        for (const transaction of transactions){
+            if(transaction.type === 'income'){
+                runningTotal += transaction.amount;
+            }else{
+                runningTotal -= transaction.amount;
+            }
+        }
+
+        var runningTotalElement = document.getElementById('runningTotal');
+        runningTotalElement.textContent = `running total: ${runningTotal}`;
+
+        var totalIncome= 0;
+        for (const income of incomes){
+            totalIncome += income.amount;
+        }
+        var totalExpense = 0;
+        for (const expense of expenses){
+            totalExpense += expense.amount;
+        }
+
+        const totalData ={
+            labels: ['total income', 'total expense'],
+            datasets: [{
+                label: 'Total income and expenses',
+                data: [totalIncome, totalExpense],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+                hoverOffset: 4
+            }]
+        
+        };
+
+        const countData = {
+            labels: ['number of incomes', 'no of expenses'],
+            datasets: [{
+                label: 'No of incomes and expenditures',
+                data: [incomes.length, expenses.length],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        const countConfig = {
+            type: 'pie',
+            data: countData,
+        };
+
+        const totalConfig = {
+            type: 'pie',
+            data: totalData,
+        };
+
+        var countChart = new Chart(
+            document.getElementById('countChart'),
+            countConfig
+        );
+
+        var totalChart = new Chart(
+            document.getElementById('totalChart'),
+            totalConfig
+        )
+
     </script>
+    
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="form.html">form</a>
+            </li>
+            <li>
+                <a href="list.html">list</a>
+            </li>
+           
+        </ul>
+    </div>
 </body>
 </html>
