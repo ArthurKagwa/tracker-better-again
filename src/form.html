@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style href="styles.css"></style>
+</head>
+<body>
+    <form action="" class="transaction">
+        <label for="amount">
+            amount
+        </label>
+        <input type="number" name="amount" id="amount" required>
+        <!-- type (imcome/expense radio) -->
+        <label for="type">
+            income
+        </label>
+
+        <input type="radio" name="type" id="type" value="income" required> 
+        <label for="type">
+            expense
+        </label>
+        <input type="radio" name="type" id="type" value="expense" required>
+
+        <button type="submit">
+            submit
+        </button>
+
+    
+    </form>
+
+    <script>
+        const form = document.querySelector('.transaction');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            //jsonifyform 
+        
+            
+
+            const transaction={
+                'amount' : formData.get('amount'),
+                'type' : formData.get('type')
+            }
+
+            const allTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            allTransactions.push(transaction);
+            localStorage.setItem('transactions', JSON.stringify(allTransactions));
+            console.log(allTransactions);
+        });
+    </script>
+    <ul>
+        <li>
+            <a href="list.html">list</a>
+        </li>
+        <li>
+            <a href="chart.html">chart</a>
+        </li>
+    </ul>
+</body>
+</html>

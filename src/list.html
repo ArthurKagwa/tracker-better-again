@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>list</title>
+</head>
+<body>
+    <table id="table">
+        <tr>
+            <th>amount</th>
+            <th>type</th>
+        </tr>
+        
+    </table>
+
+    <script>
+        const transactions= JSON.parse(localStorage.getItem('transactions')) || []
+        const table = document.getElementById('table');
+        for (const transaction of transactions){
+            table.appendChild(createRow(transaction));
+
+        }
+        
+          
+        function createRow(transaction){
+            const row = document.createElement('tr');
+            const amount = document.createElement('td');
+            amount.textContent = transaction.amount;
+            row.appendChild(amount);
+            const type = document.createElement('td');
+            type.textContent = transaction.type;
+            row.appendChild(type);
+            return row;
+        }
+    </script>
+</body>
+</html>
