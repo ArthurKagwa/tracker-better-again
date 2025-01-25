@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <link href="./output.css" rel="stylesheet">
+</head>
+<body class="bg-black text-gray-200">
+    <div class="navigation bg-gray-900 border border-gray-700 rounded-lg shadow-lg mx-auto mt-10 p-4 max-w-3xl">
+        <ul class="flex justify-center space-x-6">
+            <li>
+                <a 
+                    href="form.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    Form
+                </a>
+            </li>
+            <li>
+                <a 
+                    href="list.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    List
+                </a>
+            </li>
+            <li>
+                <a 
+                    href="chart.html" 
+                    class="text-red-600 font-serif text-lg tracking-wide hover:text-red-500 transition duration-300"
+                >
+                    Chart
+                </a>
+            </li>
+        </ul>
+    </div>
+    <form action="" class="transaction max-w-md mx-auto p-6 bg-gray-900 border border-gray-800 rounded-lg shadow-lg mt-10">
+        <label for="amount" class="block text-sm font-bold text-red-600 mb-2">
+            Amount
+        </label>
+        <input 
+            type="number" 
+            name="amount" 
+            id="amount" 
+            class="w-full p-2 text-gray-200 bg-black border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-red-600 focus:outline-none mb-4" 
+            placeholder="Enter amount" 
+            required
+        >
+    
+        <fieldset class="mb-4">
+            <legend class="text-sm font-bold text-red-600 mb-2">Type</legend>
+            <div class="flex items-center space-x-4">
+                <label for="type-income" class="text-gray-300 flex items-center">
+                    <input 
+                        type="radio" 
+                        name="type" 
+                        id="type-income" 
+                        value="income" 
+                        class="text-red-600 focus:ring-red-600"
+                        required
+                    >
+                    <span class="ml-2">Income</span>
+                </label>
+                <label for="type-expense" class="text-gray-300 flex items-center">
+                    <input 
+                        type="radio" 
+                        name="type" 
+                        id="type-expense" 
+                        value="expense" 
+                        class="text-red-600 focus:ring-red-600"
+                        required
+                    >
+                    <span class="ml-2">Expense</span>
+                </label>
+            </div>
+        </fieldset>
+    
+        <button 
+            type="submit" 
+            class="w-full py-2 px-4 bg-red-600 text-gray-900 font-bold rounded-md shadow-md hover:bg-red-700 transition-all duration-300 focus:ring-4 focus:ring-red-800 focus:outline-none"
+        >
+            Submit
+        </button>
+    </form>
+    
+
+    <script>
+        const form = document.querySelector('.transaction');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            //jsonifyform 
+        
+            
+
+            const transaction={
+                'amount' : formData.get('amount'),
+                'type' : formData.get('type')
+            }
+
+            const allTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            allTransactions.push(transaction);
+            localStorage.setItem('transactions', JSON.stringify(allTransactions));
+            console.log(allTransactions);
+            form.reset();
+        });
+    </script>
+  
+</body>
+</html>
